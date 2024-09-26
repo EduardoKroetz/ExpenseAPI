@@ -1,11 +1,11 @@
-﻿using ExpanseTracker.Core.Entities;
+﻿using ExpenseTracker.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExpanseTracker.Infra.Persistence;
+namespace ExpenseTracker.Infra.Persistence;
 
-public class ExpanseTrackerDbContext : DbContext
+public class ExpenseTrackerDbContext : DbContext
 {
-    public ExpanseTrackerDbContext(DbContextOptions<ExpanseTrackerDbContext> optionsBuilder) : base(optionsBuilder)
+    public ExpenseTrackerDbContext(DbContextOptions<ExpenseTrackerDbContext> optionsBuilder) : base(optionsBuilder)
     {
     }
 

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpanseTracker.Core\ExpanseTracker.Core.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.Core\ExpenseTracker.Core.csproj" />
   </ItemGroup>
 
 </Project>

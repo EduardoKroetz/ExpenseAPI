@@ -12,15 +12,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ExpanseTracker.Application\ExpanseTracker.Application.csproj" />
-    <ProjectReference Include="..\ExpanseTracker.Core\ExpanseTracker.Core.csproj" />
-    <ProjectReference Include="..\ExpanseTracker.Infra\ExpanseTracker.Infra.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.Application\ExpenseTracker.Application.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.Core\ExpenseTracker.Core.csproj" />
+    <ProjectReference Include="..\ExpenseTracker.Infra\ExpenseTracker.Infra.csproj" />
   </ItemGroup>
 
 </Project>

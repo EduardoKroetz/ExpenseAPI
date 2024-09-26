@@ -1,4 +1,4 @@
-﻿namespace ExpanseTracker.Core.Entities;
+﻿namespace ExpenseTracker.Core.Entities;
 
 public class Expense
 {
