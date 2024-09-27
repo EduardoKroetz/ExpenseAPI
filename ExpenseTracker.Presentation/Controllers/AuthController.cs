@@ -49,34 +49,10 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> OAuthGoogleCallback([FromQuery] string code)
     {
         var redirectUri = new Uri($"{Request.Scheme}://{Request.Host}/api/Auth/google-callback");
-        var requestData = new FormUrlEncodedContent(new[]
-        {
-            new KeyValuePair<string, string>("code", code),
-            new KeyValuePair<string, string>("client_id", Configuration.GoogleClientId),
-            new KeyValuePair<string, string>("client_secret", Configuration.GoogleClientSecret),
-            new KeyValuePair<string, string>("redirect_uri", redirectUri.AbsoluteUri),
-            new KeyValuePair<string, string>("grant_type", "authorization_code"),
+        var accessToken = await _authService.ExchangeCodeForAccessToken(code, redirectUri.AbsoluteUri);
 
-        });
+        var profileContent = await _authService.GetGoogleProfileData(accessToken);
 
-        //Exchange code for access token
-        var response = await _httpClient.PostAsync("https://oauth2.googleapis.com/token", requestData);
-        if (!response.IsSuccessStatusCode)
-            return BadRequest(new ResultDto("Ocorreu um erro ao fazer a requisição para os serviços google"));
-        
-        dynamic content = JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
-
-        if (content == null)
-            return BadRequest(new ResultDto("Não foi possível concluir a autenticação"));
-
-        //Get user profile data with access token
-        string accessToken = content.access_token;
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var profileResponse = await _httpClient.GetAsync("https://www.googleapis.com/oauth2/v2/userinfo");
-        if (!profileResponse.IsSuccessStatusCode)
-            return BadRequest(new ResultDto("Não foi possível obter os dados do usuário"));
-
-        var profileContent = JsonConvert.DeserializeObject<GoogleProfileResponse>(await profileResponse.Content.ReadAsStringAsync()) ?? throw new Exception("Não foi possível obter os dados do usuário");
         var user = await _userRepository.GetByEmail(profileContent.Email);
 
         //Create user if not exists
@@ -96,4 +72,3 @@ public class AuthController : ControllerBase
     }
 }
 
-public record GoogleProfileResponse(string Name, string Email);
