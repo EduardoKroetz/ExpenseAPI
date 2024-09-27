@@ -106,4 +106,12 @@ public class ExpensesController : ControllerBase
         return Ok(new ResultDto(new { expense.Id }, "Despesa deletada com sucesso!"));
     }
 
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> GetExpensesAsync([FromQuery] string filter)
+    {
+        var expenses = await _expenseRepository.FilterAsync(filter);
+        return Ok(new ResultDto(expenses));
+    }
+
 }

@@ -17,4 +17,9 @@ public class CategoryRepository : ICategoryRepository
     {
         return await _context.Categories.FirstOrDefaultAsync(x => x.Id.Equals(categoryId));
     }
+
+    public async Task<IEnumerable<Category>> GetAsync()
+    {
+        return await _context.Categories.ToListAsync();
+    }
 }

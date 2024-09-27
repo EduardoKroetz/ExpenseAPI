@@ -38,4 +38,27 @@ public class ExpenseRepository : IExpenseRepository
         _context.Expenses.Update(expense);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<IEnumerable<Expense>> FilterAsync(string filter)
+    {
+        DateTime date = DateTime.UtcNow;
+        switch (filter)
+        {
+            case "week":
+                date = DateTime.UtcNow.AddDays(-7);
+                break;
+            case "month":
+                date = DateTime.UtcNow.AddMonths(-1);
+                break;
+            case "three-months":
+                date = DateTime.UtcNow.AddMonths(-3);
+                break;
+        }
+
+        return await _context.Expenses
+            .Where(x => x.CreatedAt > date)
+            .Include(x => x.User)
+            .Include(x => x.Category)
+            .ToListAsync();
+    }
 }
